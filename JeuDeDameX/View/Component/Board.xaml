@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="JeuDeDameX.View.Component.Board"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:JeuDeDameX.View.Component"
+             xmlns:model="clr-namespace:JeuDeDameX.Model"
+             xmlns:viewModel="clr-namespace:JeuDeDameX.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="700">
+    <!-- ItemsControl used to place and duplicate the data templates -->
+    <ItemsControl x:Name="ItemControl" ItemsSource="{Binding Collection}">
+        <!-- Definition of the ItemsPanel - The grid which will contain the token and the cells -->
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <Grid model:GridHelpers.ColumnCount="10"
+                      model:GridHelpers.RowCount="10"
+                      model:GridHelpers.StarRows="0,1,2,3,4,5,6,7,8,9"
+                      model:GridHelpers.StarColumns="0,1,2,3,4,5,6,7,8,9"/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <!-- Style for the Data Template in the container -->
+        <ItemsControl.ItemContainerStyle>
+            <Style>
+                <Setter Property="Grid.Row" Value="{Binding Y}"/>
+                <Setter Property="Grid.Column" Value="{Binding X}"/>
+            </Style>
+        </ItemsControl.ItemContainerStyle>
+        <!-- Definition of the resources - the data templates -->
+        <ItemsControl.Resources>
+            <!-- The token data template -->
+            <DataTemplate DataType="{x:Type viewModel:TokenViewModel}">
+                <local:Token>
+                </local:Token>
+            </DataTemplate>
+            <!-- The cell data template -->
+            <DataTemplate DataType="{x:Type model:Cell}">
+                <Rectangle>
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Setter Property="Fill" Value="{Binding Color}"></Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Fill" Value="#4C566A"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+            </DataTemplate>
+        </ItemsControl.Resources>
+    </ItemsControl>
+</UserControl>
